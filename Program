@@ -1,0 +1,32 @@
+import time
+
+def password_strength(password):
+    """Checks the strength of a password using a Python library."""
+    # Use a password strength library to estimate the strength of the password
+    # Example: zxcvbn library (https://github.com/dropbox/zxcvbn)
+    # Install with pip: `pip install zxcvbn`
+    strength = zxcvbn(password)
+    return strength.score
+
+def crack_password(password):
+    """Estimates the time it would take to crack a password using a brute-force attack."""
+    # Define the character set to use for password cracking (e.g., lowercase letters only)
+    character_set = "abcdefghijklmnopqrstuvwxyz"
+    start_time = time.time()
+    # Iterate through all possible combinations of characters until the password is found
+    for length in range(1, len(password) + 1):
+        for guess in itertools.product(character_set, repeat=length):
+            guess = "".join(guess)
+            if guess == password:
+                end_time = time.time()
+                cracking_time = end_time - start_time
+                return cracking_time
+    # If password is not found, return a very large cracking time
+    return 999999999
+
+# Example usage
+password = "myp@ssword123"
+strength = password_strength(password)
+print("Password strength score:", strength)
+cracking_time = crack_password(password)
+print("Estimated cracking time:", cracking_time, "seconds")
